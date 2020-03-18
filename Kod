@@ -1,0 +1,26 @@
+from auth import (APP_KEY, APP_SECRET, OUATH_TOKEN, OUATH_TOKEN_SECRET)
+import cv2
+import tweepy
+import random
+
+auth = tweepy.OAuthHandler(APP_KEY, APP_SECRET)
+auth.set_access_token(OUATH_TOKEN, OUATH_TOKEN_SECRET)
+api = tweepy.API(auth)
+
+messages = [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+]
+cap = cv2.VideoCapture(0)
+ret, frame = cap.read()
+
+img = frame
+cv2.imwrite('/home/pi/Surveillance_images/pic.png', img,)
+cap.release()
+
+message = random.choice(messages)
+image_Path = '/home/pi/Surveillance_images/pic.png'
+api.update_with_media(image_Path, message)
